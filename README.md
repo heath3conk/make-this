@@ -1,36 +1,44 @@
-# Capstone project
+# Recipe matcher
 
 ## Problem statement
-There are (at least) two general problems with using machine learning to solve problems.
-1. Finding the "right" model for the problem at hand.
-2. Understanding how the results can or should be used, for example identifying limitations, underlying 
-    assumptions and potentially suspect applications.
+How can I decide what to cook in the evening when my executive function is low? I have ingredients and I know how 
+to cook but I need someone to give me some ideas about what to make. 
 
-AWS markets "a range of AutoML solutions for all levels of expertise"<sup>1</sup> and promises full
-transparency into how their model was created and what's in it. H2O is an open-source tool that 
-reads in data, produces a leaderboard of its best models and can also generate a number of charts and 
-graphs to show its model's scores, variable importance, correlation of the models' predictions, etc.
+I also want to be able to customize recipes to my preferences and make subsitutions while retaining the flavor profile of 
+my favorite food. Examples
+- Suppose I really don't like olives so any recipe that features olives is unlikely to make my list unless I can understand what they
+    add to the flavor so I can substitute something else for their salty/briny-ness.
+- Maybe I'm lactose intolerant but love pasta dishes and pizza. What can I do to give my lasange some creamy goodness without ricotta 
+    or mozzarella.
 
-From a learning perspective, my goal is to build a logical framework for choosing an appropriate ML model
-based on the dataset provided and produce charts and evaluation metrics that are meaningful and useful to a non-technical audience.
-
-I do not aim to reproduce AWS' AutoML or H2O results. I will create an interface where a user
-will link data, interactively describe the problem they're trying to solve and then provide results 
-with additional context so they can use the outcomes more effectively.
 
 
 ## Methodology
-Write code that:
-1. Takes in data
-2. Does some EDA stuff<sup>*</sup> with it
-3. Figures out/confirms with user what target column(s)
-4. Based on the target, figures out/confirms with the user what type of problem this is
-5. Identifies some models that are likely to work for that type of problem
-6. Runs models & generates ranked results
-7. Evaluates the results
-8. Returns some stuff<sup>*</sup> to the user
+1. Build an app that takes user input:
+    - 2 or more ingredients (probably need an upper limit)
+    - how much time to spend
+2. Backend hits an API that returns (hopefully) several recipes that meet the criteria
+3. App returns a flavor profile of the recipes, based on data from [FooDB](https://foodb.ca/foods)
+4. User can select any of the ingredients in the list to either avoid altogether or to reduce, whether due to preferences, allergies or dietary restrictions
+5. App returns suggested substitutions for those ingredients or different recipes
 
-<sup>*</sup>what exact stuff TBD
+## Data
+- API with recipe search by ingredient:
+    - [recipe search API](https://developer.edamam.com/edamam-recipe-api)
+- data with info about ingredients: 
+    - [USDA API](https://fdc.nal.usda.gov/api-guide.html#bkmk-2): nutrients, etc. about branded foods as well as what they call "foundational" foods
+    - they also have data for download, will try the api first & then see if I need to download data instead
+    - FooDB: food groups, nutrients, chemical compounds
+    - they too have data for download, massive CSV
+- data with flavor profile of ingredients
+    - this has a lot of great data I'm not sure if they have an API 
+    - especially as a "nice to have," I'd love to use this: https://cosylab.iiitd.edu.in/flavordb/search for pairings and substitutions for flavor
+
+### maybe nice to have
+Could have users input this info on specific ingredients or make suggestions to users:
+- typical foods people avoid for dietary reasons and substitutions for them, eg. low sodium, low fat
+- typical foods people are allergic to and substitutions for them, eg. shellfish, nuts, dairy
+- types/combinations of foods people avoid for religious reasons, eg. kosher
 
 ## Technical notes
 ### Installing requirements
@@ -39,6 +47,4 @@ Write code that:
 - Run `conda env create -f env.yml`
 
 ## References
-1. [AWS AutoML Solutions](https://aws.amazon.com/machine-learning/automl/): Built-in AutoML across the AWS ML stack
-2. [h2o.ai documentation](https://h2o.ai/platform/ai-cloud/make/h2o/)
-3. [python H2O docs](https://docs.h2o.ai/h2o/latest-stable/h2o-py/docs/intro.html#what-is-h2o)
+1. Neelansh Garg, Apuroop Sethupathy, Rudraksh Tuwani, Rakhi NK, Shubham Dokania, Arvind Iyer, Ayushi Gupta, Shubhra Agrawal, Navjot Singh, Shubham Shukla, Kriti Kathuria, Rahul Badhwar, Rakesh Kanji, Anupam Jain, Avneet Kaur, Rashmi Nagpal, Ganesh Bagler. (2018, 4 January) FlavorDB: a database of flavor molecules. Nucleic Acids Research [link](https://academic.oup.com/nar/article/46/D1/D1210/4559748#107188690)
