@@ -1,11 +1,21 @@
 
 import pickle
+import logging
+import warnings
 
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import balanced_accuracy_score, recall_score, precision_score, f1_score, roc_auc_score
 
+# for now, I want to ignore UserWarnings
+# warnings.simplefilter('ignore', UserWarning)
+
+# from https://alex-ber.medium.com/integrating-pythons-logging-and-warnings-packages-7ffd6f65e02d
+logger = logging.getLogger()
+logging.basicConfig(filename="logging.txt", format='%(asctime)-15s %(levelname)s [%(name)s.%(funcName)s] %(message)s',
+                    level=logging.WARN)
+logging.captureWarnings(True)
 
 
 def store_metrics(X_test: pd.DataFrame, y_test: pd.Series, scores_df: pd.DataFrame, model, label: str) -> pd.DataFrame:
@@ -62,6 +72,7 @@ def fetch_fitted_pipeline(file_path: str) -> Pipeline:
     
 
 def generate_gs(pipe_tuples: list[tuple], pipe_params: dict[str, any]) -> GridSearchCV:
+    print("again!")
     select_params = {}
     for stage in pipe_tuples:
         for key, value in pipe_params.items():
