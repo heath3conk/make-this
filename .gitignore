@@ -1,6 +1,7 @@
 secrets.json
 
 foodb_2020_04_07_csv/
+kaggle_food_dot_com/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

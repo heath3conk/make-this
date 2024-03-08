@@ -1,11 +1,13 @@
 To do:
-- [] run classification models on "food.csv"
-- [] join "content.csv" to "food.csv" by "food_id" - looking to add the "food_group" column to content.csv data
-- [] take the best one (or maybe two) models & run them on the joined data
-- [] look for adjectives in description, maybe a parts-of-speech model? or make a list to create flag columns as features?
-- [] look at [multiclassifier](https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier)
+- [x] run classification models on "food.csv"
+- [x] join "content.csv" to "food.csv" by "food_id" - looking to add the "food_group" column to content.csv data
+- [x] take the best one (or maybe two) models & run them on the joined data 
+        - logistric regression took about an hour to train on colab on the large data set
+        - knn ran for 17+ hours and then failed
+- [x] look for adjectives in description, maybe a parts-of-speech model? or make a list to create flag columns as features?
 - [] recommender system: calculate similarities between all the foods
 - [] figure out what chemical/nutrient data I can get for each ingredient - check out the other tables from foodb and the flavordb website, maybe try the [foodb api](https://foodb.ca/api_doc)
 - [] plot the flavor/nutrient profile of the recipe, using the weight of the ingredients
 - [] error handling: how to handle ingredients in recipe that I can't find in the db
 - [] build app
+- [] update resume with details on capstone & project 5
