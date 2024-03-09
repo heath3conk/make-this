@@ -1,60 +1,52 @@
 
 import pickle
-import logging
-import warnings
 
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import balanced_accuracy_score, recall_score, precision_score, f1_score, roc_auc_score
 
-# for now, I want to ignore UserWarnings
-# warnings.simplefilter('ignore', UserWarning)
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# functions for interacting with my model
 
-# from https://alex-ber.medium.com/integrating-pythons-logging-and-warnings-packages-7ffd6f65e02d
-logger = logging.getLogger()
-logging.basicConfig(filename="logging.txt", format='%(asctime)-15s %(levelname)s [%(name)s.%(funcName)s] %(message)s',
-                    level=logging.WARN)
-logging.captureWarnings(True)
+def map_recipe_ingredients(response_ingr: pd.Series, map_df: pd.DataFrame) -> list[list[int]]:
+    mapped_ingr = []
+    # iterate through the response recipes   
+    for ingr_list in response_ingr:
+        codes = []
+        # iterate through the list of ingredients
+        for label in ingr_list:
+            label = label.lower()
+            # if label is generic enough, it'll match one or more rows in the "replaced" column
+            replaced = map_df.loc[map_df["replaced"] == label]
+            
+            # if the label is more specific, it might be found in the longer description in the "raw" column
+            raw = map_df.loc[map_df["raw_ingr"].str.find(label) != -1]
+            if replaced.shape[0] > 0:
+                code = replaced["id"].value_counts().idxmax()
+            elif raw.shape[0] > 0:
+                code = raw["id"].value_counts().idxmax()
+            else:
+                code=-1
+            codes.append(code)
+        mapped_ingr.append(codes)
+    return mapped_ingr
 
 
-def store_metrics(X_test: pd.DataFrame, y_test: pd.Series, scores_df: pd.DataFrame, model, label: str) -> pd.DataFrame:
-    """
-    took this from lesson 2.14
-
-    Args:
-        y_test: actual values for test data
-        preds: predictions for test data
-
-    Returns:
-        dict with metrics on the given set of predictions & actual data
-    """
-    preds = model.predict(X_test)
+def flag_ingredients(ingreds: list[list[int]], map_df: pd.DataFrame):
+    flagged_recipes = []
+    # iterate through the list of recipe ingredient ids
+    for ing_list in ingreds:
+        # iterate through the list of unique ids from mapper
+        recipe_row = []
+        for id_col in map_df["id"].unique():
+            flag = 1 if id_col in ing_list else 0
+            recipe_row.append(flag)
+        flagged_recipes.append(recipe_row)
     
-    scoring_functions = [("balanced_accuracy", balanced_accuracy_score(y_test, preds)), 
-                         ("f1_score", f1_score(y_test, preds)),
-                         ("recall", recall_score(y_test, preds)),
-                         ("precision", precision_score(y_test, preds))]
-    metrics = []
-    
-    for pair in scoring_functions: 
-        score = {
-            "model_name": label,
-            "score_type": pair[0],
-            "score": pair[1]
-        }
-        metrics.append(score)
-    new_scores_df = pd.DataFrame.from_dict(metrics)
-    
-    return pd.concat([scores_df, new_scores_df])
+    return pd.DataFrame(flagged_recipes)
 
-
-def store_params(model, pipe_params, label, params_dict):
-    model_params = model.get_params()
-    params_selected = { key: model_params[key] for key in list(model_params.keys()) if key in list(pipe_params.keys())}
-    params_dict[label] = params_selected
-    return params_dict
-
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# functions for creating & comparing models
 
 def train_save_best_model(pipe: Pipeline, pipe_params: dict[str, any], X_train: pd.DataFrame, y_train: pd.Series, file_path: str):
     gs = generate_gs(pipe, pipe_params)

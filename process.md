@@ -5,9 +5,18 @@ To do:
         - logistric regression took about an hour to train on colab on the large data set
         - knn ran for 17+ hours and then failed
 - [x] look for adjectives in description, maybe a parts-of-speech model? or make a list to create flag columns as features?
-- [] recommender system: calculate similarities between all the foods
-- [] figure out what chemical/nutrient data I can get for each ingredient - check out the other tables from foodb and the flavordb website, maybe try the [foodb api](https://foodb.ca/api_doc)
-- [] plot the flavor/nutrient profile of the recipe, using the weight of the ingredients
+- [x] change data source & entire plan (yay!)
+- [x] explore recipes, raw & encoded
+- [x] build "flagged" recipes from recipe data -> dummifies pre-processed recipe data based on "ingredient_ids"
+- [x] run kmeans on flagged data & calculate silhouette score (it's not great)
+- [x] fetch a recipe from API & get a cluster prediction from the model (even if it's not great yet)
+- [x] encode that process in py file
+- [x] set up model trials (may need to run overnight?)
+        - kmeans
+        - dbscan
+- [] build app MVP
+- [] filter recipes & run the models on dinner/main course recipes alone
+- [] calculate cosine similarity between the recipes, check out word2vec & recommender lectures
+- [] refine model to predict ingredients
 - [] error handling: how to handle ingredients in recipe that I can't find in the db
-- [] build app
 - [] update resume with details on capstone & project 5
