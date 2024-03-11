@@ -14,8 +14,11 @@ To do:
 - [x] set up model trials (may need to run overnight?)
         - kmeans
         - dbscan
-- [] build app MVP
-- [] filter recipes & run the models on dinner/main course recipes alone
+- [] build app MVP - almost there
+- [x] filter recipes & run the models on dinner/main course recipes alone
+- [] try filtering dummified data to use only the most frequent ingredients
+- [] try filtering by cuisine
+- [] try different tokenizers, word2vec, tfidf, roBERTa
 - [] calculate cosine similarity between the recipes, check out word2vec & recommender lectures
 - [] refine model to predict ingredients
 - [] error handling: how to handle ingredients in recipe that I can't find in the db
