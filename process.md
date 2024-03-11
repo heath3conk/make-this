@@ -17,6 +17,11 @@ To do:
 - [] build app MVP - almost there
 - [x] filter recipes & run the models on dinner/main course recipes alone
 - [] try filtering dummified data to use only the most frequent ingredients
+        - arbitrary filtering
+        - PCA
+- [] try hierarchical clustering
+        - agglomerative clustering
+        - BIRCH
 - [] try filtering by cuisine
 - [] try different tokenizers, word2vec, tfidf, roBERTa
 - [] calculate cosine similarity between the recipes, check out word2vec & recommender lectures

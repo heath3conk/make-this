@@ -4,6 +4,8 @@ import pickle
 import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # functions for interacting with my model
@@ -47,6 +49,34 @@ def flag_ingredients(ingreds: list[list[int]], map_df: pd.DataFrame):
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # functions for creating & comparing models
+
+def try_kmeans_models(cluster_range: list[int], name_modifier: str, data_df: pd.DataFrame, models_df: pd.DataFrame) -> pd.DataFrame:
+    models_details = []
+    
+    for cluster in cluster_range:
+        trial_details = {}
+        trial_details["model_type"] = "kmeans"
+        trial_details["clusters"] = cluster
+        km = KMeans(n_clusters=cluster, n_init="auto", random_state=42)
+        km.fit(data_df)
+        
+        sil_score = silhouette_score(data_df, km.labels_)
+        trial_details["score"] = sil_score
+        trial_details["inertia"] = km.inertia_
+        
+        modifier = "" if len(name_modifier) == 0 else f"_{name_modifier}"
+        model_name = f"kmeans_{cluster}c_mains{modifier}"
+        print(f"{model_name} score = {sil_score}")
+        
+        trial_details["name"] = model_name
+        models_details.append(trial_details)
+        
+        with open(f"models/main_course_recipes_models/{model_name}.pkl", "wb") as f:
+            pickle.dump(km, f)
+    
+    new_models = pd.DataFrame.from_dict(models_details)
+    return pd.concat([models_df, new_models])
+
 
 def train_save_best_model(pipe: Pipeline, pipe_params: dict[str, any], X_train: pd.DataFrame, y_train: pd.Series, file_path: str):
     gs = generate_gs(pipe, pipe_params)

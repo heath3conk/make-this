@@ -61,15 +61,8 @@ Could have users input this info on specific ingredients or make suggestions to 
 - types/combinations of foods people avoid for religious reasons, eg. kosher
 
 ## Running the app
-The app has two parts: a ReactJS front end and a Flask back end. In this MVP version of the app, you have to start each part separately.
-
-<u>**Starting up the back end**</u>
-In the terminal, navigate to the "flask_app" folder and run `python controller.py`. This will start the back end running locally. You won't need to look at this in your browser because you'll be looking at the front end, running on a different local port. 
-
-<u>**Starting up the fron end**</u>
-In a different terminal window, navigate to the "react-recipe-app" folder and run `npm start`. This will start up the front end and it should automatically launch a tab in your browser. If not, open a new browser tab and go to http://localhost:3000 for the app's home page.
-
-**future work**: check out [this article](https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project) about setting up a single command to start both
+Navigate to the "streamlit_app" folder and run `streamlit run home.py` in the terminal. The app
+should automatically take you to a tab in your default browser.
 
 ## Technical notes
 ### Installing requirements
