@@ -14,17 +14,18 @@ To do:
 - [x] set up model trials (may need to run overnight?)
         - kmeans
         - dbscan
-- [] build app MVP - almost there
 - [x] filter recipes & run the models on dinner/main course recipes alone
-- [] try filtering dummified data to use only the most frequent ingredients
+- [x] try filtering dummified data to use only the most frequent ingredients
         - arbitrary filtering
         - PCA
-- [] try hierarchical clustering
+- [x] try hierarchical clustering
         - agglomerative clustering
         - BIRCH
 - [] try filtering by cuisine
 - [] try different tokenizers, word2vec, tfidf, roBERTa
-- [] calculate cosine similarity between the recipes, check out word2vec & recommender lectures
-- [] refine model to predict ingredients
-- [] error handling: how to handle ingredients in recipe that I can't find in the db
+- [x] calculate cosine similarity between the recipes, check out word2vec & recommender lectures
+- [x] refine model to predict ingredients
+- [x] build app MVP - almost there
+- [x] error handling: how to handle ingredients in recipe that I can't find in the db
+- [] future work: look into association rule mining
 - [] update resume with details on capstone & project 5

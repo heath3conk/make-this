@@ -76,7 +76,7 @@ def get_recipes(ingr: list[str], dish: str="Main course", meal: str="Dinner") ->
         return items, 200
 
 
-def individual_recipe_display(recipe: dict[str: any]) -> None:
+def individual_recipe_display(recipe: dict[str: any], index: int) -> None:
     """ 
     streamlit operations
     Args: 
@@ -84,7 +84,8 @@ def individual_recipe_display(recipe: dict[str: any]) -> None:
         i: index of that recipe in the sorted_recipes list
     """
     col1, col2 = st.columns(2)
-    select_recipe = col1.button(recipe["title"])
+    # adding unique key in case I get multiple recipes with the same title
+    select_recipe = col1.button(recipe["title"], key=index)
     col2.image(recipe["image"])
     if select_recipe:
         print(f"clicked {recipe["title"]}")
@@ -101,7 +102,7 @@ def display_recipes(recipes: dict[str: any]) -> None:
     sorted_recipes = sorted(recipes, key=lambda x: x["num_ingredients"])
     max_display = min(len(sorted_recipes), 5)
     for i in range(max_display):
-        individual_recipe_display(sorted_recipes[i])
+        individual_recipe_display(sorted_recipes[i], i)
 
 
 def fetch_recipes() -> None:
