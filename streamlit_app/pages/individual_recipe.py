@@ -12,23 +12,43 @@ st.set_page_config(
     page_icon=fav,
 )
 
-recipe = st.session_state.selected_recipe
-st.header(recipe["title"])
+def display_recipe():
+    recipe = st.session_state.selected_recipe
+    st.header(recipe["title"])
 
-# found this here: https://discuss.streamlit.io/t/python-list-output-as-markdown-lists-beautify-lists/23303/3
-md_list = ""
-for i in recipe["ingredients"]:
-    md_list += "- " + i + "\n"
+    # found this here: https://discuss.streamlit.io/t/python-list-output-as-markdown-lists-beautify-lists/23303/3
+    md_list = ""
+    for i in recipe["ingredients"]:
+        md_list += "- " + i + "\n"
 
-col1, col2 = st.columns(2)
-col1.image(recipe["image"])
-col2.subheader("ingredients list")
-col2.markdown(md_list)
+    col1, col2 = st.columns(2)
+    col1.image(recipe["image"])
+    col2.subheader("ingredients list")
+    col2.markdown(md_list)
 
-st.link_button("Go recipe source", recipe["link"])
-st.write("(original source may or may not still be available)")
+    st.link_button("recipe source", recipe["link"])
+    st.write("(original source may or may not still be available)")
 
-back = st.button("Back to list of recipes")
-if back:
-    st.session_state.selected_recipe = {}
-    switch_page("recipe_list")
+    predict = st.button("get model prediction")
+    if predict:
+        switch_page("model_prediction")
+
+    back = st.button("back to list of recipes")
+    if back:
+        st.session_state.selected_recipe = {}
+        switch_page("recipe_list")
+        
+
+if len(st.session_state.selected_recipe) > 0:
+    display_recipe()
+else:
+    st.write("No recipe selected!")
+    back_to_form = st.button("input form")
+    if back_to_form:
+        switch_page("home")
+    
+    back = st.button("recipe list")
+    if back:
+        switch_page("recipe_list")
+        
+    
