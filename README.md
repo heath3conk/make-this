@@ -49,8 +49,9 @@ number of ingredients from 8,023 to 827.
 
 ### Clustering models
 I tried four unsupervised clustering models: kmeans, dbscan, birch and agglomerative. In order to get a hint about how many clusters to set, I first 
-ran scipy's `
-![positive class word cloud](/images/pos_class_word_cloud.png)
+ran scipy's `dendogram` function:
+
+![dendrogram](/images/scipy_dendrogram.png)
 
 
 ## Running the app
