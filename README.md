@@ -4,7 +4,7 @@
 - [Problem statement](#problem-statement)
 - [App description](#app-description)
 - [Model summary & top-level results](#model-summary--top-level-results)
-- [Navigating the notebooks](#navigating-the-notebooks)
+- [Navigating this repo](#navigating-this-repo)
 
 ## Problem statement
 How can I decide what to cook in the evening when my executive function is low? I have ingredients and I'm an excellent 
@@ -40,13 +40,19 @@ See the [future work](#future-work) section for possible model improvements.
 
 Jump to [table of contents](#table-of-contents)
 
-## Navigating the notebooks
-- [edamam api](/notebooks/edamam_recipe_api.ipynb): exploring the recipe api, looking at what are required parameters and how to dig into the json
-response to get the information I want to display on the app
-- [recipe database](/notebooks/recipe_database.ipynb): initial EDA on the Kaggle dataset<sup>1</sup> from Food.com.
-- [model recipe database](/notebooks/model_recipe_database.ipynb): data exploration and initial pass on using the Kaggle/Food.com data with a clustering model. 
-- [cluster model trials](/notebooks/cluster_model_trials.ipynb): trials of kmeans, dbscan, birch and agglomerative clustering models, using a few different
-ways to subset the data. Ends with the cosine similarity recommender
+## Navigating this repo
+### Jupyter notebooks
+At the top of each notebook, I've provided a brief summary of its purpose and a list of the sections in the notebook. You can't
+use hyperlinks to move around in jupyter notebooks but you can search by the items in those lists to jump to the section you want.
+- [edamam recipe api](/notebooks/edamam_recipe_api.ipynb): exploring the recipe api<sup>1</sup>, figuring out which parameters are 
+required and how to dig into the json response to get the information I want to display on the app. Sample JSON response is 
+[here](/sample_response.json); the ingredients I sent to the API were "cherry tomatoes, sourdough bread".
+- [EDA recipe database](/notebooks/eda_recipe_database.ipynb): initial EDA on the Kaggle dataset<sup>2</sup> from Food.com. Includes
+references to some articles about tokenizing the recipe data<sup>3,4</sup>.
+- [model recipe database](/notebooks/model_recipe_database.ipynb): data exploration and initial pass on using the Kaggle/Food.com data 
+with a KMeans model to cluster recipes. Also uses that model to predict which cluster a new recipe (from the Edamam API).
+- [cluster model trials](/notebooks/cluster_model_trials.ipynb): trials of kmeans, dbscan, birch and agglomerative clustering models, 
+using a few different ways to subset the data. Ends with the cosine similarity recommender
 
 
 ## Data
@@ -72,7 +78,9 @@ number of ingredients from 8,023 to 827.
 
 ## Other potential approaches
 ### Clustering models
-I tried four unsupervised clustering models: kmeans, dbscan, birch and agglomerative. In order to get a hint about how many clusters to set, I first 
+I tried four unsupervised clustering models: kmeans, dbscan, birch and agglomerative. At first, I was setting the number of clusters to try somewhat randomly, ranging from 3? to 100?. My very first attempt, with a kmeans model, set `n_clusters=12` which had a silhouette score of 0.17. 
+
+In order to get a hint about how many clusters to set, I first 
 ran scipy's `dendogram` function:
 
 ![dendrogram](/images/scipy_dendrogram.png)
@@ -95,7 +103,10 @@ should automatically take you to a tab in your default browser.
 
 
 ## References
-1. Food.com Recipes and Interacations. Kaggle dataset. [link](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions/data)
+1. [Swagger docs](https://developer.edamam.com/edamam-docs-recipe-api) for Edamam recipe search API
+2. Food.com Recipes and Interacations. Kaggle dataset. [link](https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions/data)
+3. Dash, Ajit. (May 21, 2023) Unlocking the Power of Tokens: Optimizing Token Usage in GPT for Efficient Text Processing. [link](https://techcommunity.microsoft.com/t5/healthcare-and-life-sciences/unlocking-the-power-of-tokens-optimizing-token-usage-in-gpt-for/ba-p/3826665)
+4. Khanna, Chetna. (August 13, 2021) Byte-Pair Encoding: Subword-based tokenization algorithm. [link](https://towardsdatascience.com/byte-pair-encoding-subword-based-tokenization-algorithm-77828a70bee0)
 1. Neelansh Garg, Apuroop Sethupathy, Rudraksh Tuwani, Rakhi NK, Shubham Dokania, Arvind Iyer, Ayushi Gupta, Shubhra Agrawal, Navjot Singh, Shubham Shukla, Kriti Kathuria, Rahul Badhwar, Rakesh Kanji, Anupam Jain, Avneet Kaur, Rashmi Nagpal, Ganesh Bagler. (2018, 4 January) FlavorDB: a database of flavor molecules. Nucleic Acids Research [link](https://academic.oup.com/nar/article/46/D1/D1210/4559748#107188690)
 
 ## Source for external images
