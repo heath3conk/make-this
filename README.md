@@ -4,6 +4,9 @@
 - [Problem statement](#problem-statement)
 - [App description](#app-description)
 - [Model summary & top-level results](#model-summary--top-level-results)
+- [Data](#data)
+    - [Sources](#sources)
+    - Data dictionary
 - [Navigating this repo](#navigating-this-repo)
 
 ## Problem statement
@@ -40,26 +43,13 @@ See the [future work](#future-work) section for possible model improvements.
 
 Jump to [table of contents](#table-of-contents)
 
-## Navigating this repo
-### Jupyter notebooks
-At the top of each notebook, I've provided a brief summary of its purpose and a list of the sections in the notebook. You can't
-use hyperlinks to move around in jupyter notebooks but you can search by the items in those lists to jump to the section you want.
-- [edamam recipe api](/notebooks/edamam_recipe_api.ipynb): exploring the recipe api<sup>1</sup>, figuring out which parameters are 
-required and how to dig into the json response to get the information I want to display on the app. Sample JSON response is 
-[here](/sample_response.json); the ingredients I sent to the API were "cherry tomatoes, sourdough bread".
-- [EDA recipe database](/notebooks/eda_recipe_database.ipynb): initial EDA on the Kaggle dataset<sup>2</sup> from Food.com. Includes
-references to some articles about tokenizing the recipe data<sup>3,4</sup>.
-- [model recipe database](/notebooks/model_recipe_database.ipynb): data exploration and initial pass on using the Kaggle/Food.com data 
-with a KMeans model to cluster recipes. Also uses that model to predict which cluster a new recipe (from the Edamam API).
-- [cluster model trials](/notebooks/cluster_model_trials.ipynb): trials of kmeans, dbscan, birch and agglomerative clustering models, 
-using a few different ways to subset the data. Ends with the cosine similarity recommender
-
 
 ## Data
-The "Food.com Recipes and Interacations" dataset has several tables of recipes and user interactions. I used three of their recipe tables:
-- "RAW_recipes.csv" which has human-readable details of 231,637 recipes
-- "PP_recipes.csv" which has pre-processed versions of those recipes. Each ingredient has an id and the text in fields like ingredient labels and tags
-has been encoded using the GPT subword tokenizer.
+### Sources
+The "Food.com Recipes and Interacations" Kaggle dataset<sup>2</sup> has several tables of recipes and user interactions. I used three of their files:
+- "RAW_recipes.csv" which has human-readable details of 231,637 recipes, including columns for the recipe's name, a unique id, minutes (to prepare), a contributor id, submitted date, tags, nutrition information, number of steps to prepare the recipe, a list of the steps, a description (think of the descriptive text in a typical online recipe), a list of the ingredients and a count of the ingredients.
+- "PP_recipes.csv" which has pre-processed versions of those recipes. Each ingredient has an id and the text in fields like ingredient labels and tags 
+has been encoded using the GPT subword tokenizer. Its columns 
 - "ingr_map.pkl" which has the mapping from the ingredient id in the processed recipes to the human-readable label in the raw recipes.
 
 
@@ -89,11 +79,24 @@ ran scipy's `dendogram` function:
 
 
 ## Running the app
-Navigate to the "streamlit_app" folder and run `streamlit run home.py` in the terminal. The app
-should automatically take you to a tab in your default browser.
+Navigate to the "streamlit_app" folder and run `streamlit run home.py` in the terminal. The app should automatically open in a new tab in your default browser.
 
 ### Edamam API
 
+
+## Navigating this repo
+### Jupyter notebooks
+At the top of each notebook, I've provided a brief summary of its purpose and a list of the sections in the notebook. You can't
+use hyperlinks to move around in jupyter notebooks but you can search by the items in those lists to jump to the section you want.
+- [edamam recipe api](/notebooks/edamam_recipe_api.ipynb): exploring the recipe api<sup>1</sup>, figuring out which parameters are 
+required and how to dig into the json response to get the information I want to display on the app. Sample JSON response is 
+[here](/sample_response.json); the ingredients I sent to the API were "cherry tomatoes, sourdough bread".
+- [EDA recipe database](/notebooks/eda_recipe_database.ipynb): initial EDA on the Kaggle dataset<sup>2</sup> from Food.com. Includes
+references to some articles about tokenizing the recipe data<sup>3,4</sup>.
+- [model recipe database](/notebooks/model_recipe_database.ipynb): data exploration and initial pass on using the Kaggle/Food.com data 
+with a KMeans model to cluster recipes. Also uses that model to predict which cluster a new recipe (from the Edamam API).
+- [cluster model trials](/notebooks/cluster_model_trials.ipynb): trials of kmeans, dbscan, birch and agglomerative clustering models, 
+using a few different ways to subset the data. Ends with the cosine similarity recommender
 
 ## Technical notes
 ### Installing requirements
