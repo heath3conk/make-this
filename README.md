@@ -61,7 +61,8 @@ the `ingredient_ids` are the keys that map to plain-text ingredients in the "ing
 - "ingr_map.pkl" which has the mapping from the ingredient id in the processed recipes to the human-readable label in the raw recipes.
 
 This diagram shows the relationships among these tables:
-![kaggle tables](/images/kaggle_data_diagram.pdf)
+
+![kaggle tables](/images/kaggle_data_diagram.png)
 
 ### Data dictionary
 Detailing the data I used in my model(s):
